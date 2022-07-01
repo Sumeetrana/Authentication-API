@@ -36,6 +36,30 @@ class UserController {
             }
         }
     }
+
+    static userLogin = async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            if (email && password) {
+                const user = await User.findOne({ email });
+                if (user != null) {
+                    const isMatch = await bcrypt.compare(password, user.password);
+                    if (email === user.email && isMatch) {
+                        res.send({ "status": "success", "message": "User login success" })
+                    } else {
+                        res.send({ "status": "failed", "message": "User or password is not valid" })
+
+                    }
+                } else {
+                    res.send({ "status": "failed", "message": "You are not a registered user" })
+                }
+            } else {
+                res.send({ "status": "failed", "message": "All fields are required!!" })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export default UserController;
