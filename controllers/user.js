@@ -1,4 +1,4 @@
-import User from '../models/User';
+import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -21,6 +21,8 @@ class UserController {
                             tc
                         })
                         await newUser.save();
+                        res.send({ "status": "success", "message": "User saved successfully!!" })
+
                     } catch (error) {
                         console.log(error);
                         res.send({ "status": "failed", "message": "Unable to register" })
@@ -35,3 +37,5 @@ class UserController {
         }
     }
 }
+
+export default UserController;
